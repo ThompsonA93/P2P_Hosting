@@ -1,0 +1,60 @@
+This implementation standardises the communication of our different p2p-nodes.
+
+
+Add communication project to your existing project or
+add communication .jar to you existing project.
+
+
+The P2PMessage-Object has the following fields:
+
+	- Ctrl: Represents the control command
+	- Info: Represents some additional information. Not specified.
+	- Payload: Represents some kind of raw byte data which can be attached to the message.
+
+Server usage:
+
+
+	// create server object
+	P2PComServer server = new P2PComServer(3000);
+
+	// start server
+	server.start();
+
+	// stop server
+	server.stop();
+
+	// add an server command which can be invoked from the client
+	P2PComServerCtrlCmdManager cmdManager = P2PComServerCtrlCmdManager.getInstance();
+		
+	cmdManager.addControlCommand(new P2PComServerControlCommand("CTRL1"){
+
+		@Override
+		public void processRequest(P2PMessage request, P2PMessage response) {
+				
+			// do somehting with received data
+			// ....
+
+
+			// edit response
+			response.setControl("Server-CTRL1");
+			response.setInformation("Server-INFO");
+			response.setPayload("Server-PAYLOAD".getBytes());
+		}
+			
+	});
+
+Client usage:
+
+	// create a client connection
+	P2PComClient peer1 = new P2PComClient("localhost",3000);
+
+	// create p2p message first way
+	P2PMessage msg = new P2PMessage("CTRL","INFO","byte data".getBytes());
+
+	// create p2p message second way
+	P2PMessage msg = new P2PMessage();
+	msg.setCtrl("CTRL");
+	//.....
+
+	// sending the message
+	P2PMessage response = peer1.send(msg);
