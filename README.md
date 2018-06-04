@@ -4,14 +4,36 @@
 > TCP-Protocl
 
 ## Message Format
-@Request  :: Command 			/ Request or Offer
-	  :: [Ressource]@[Address] 	/ What is requested/offered
-
+@Request :: ctrl = Command (String)
+		 :: information = IP@Port (String)
+		 :: payload = A string of all File names. Each File name split with "\n" (String)
+		 
 Example:
-	String s = Command@picture.png@IP:Port
+	ctrl = "AddRessource"
+	information = "127.0.0.1@3534"
+	payload = "mypicture.jpg\nmytext.tex"	
 
-@Response :: [List<String>]		/ Data returned by SuperServer 	
+@Response 	:: ctrl = "Server response" (String)
+		 	:: information = Success message or not Success message (String)
+		 	:: payload = 1. A string of all File names and IP@port. Each File name split with "\n". 
+		 	   File name and IP@port split with "#"(String for GetRessource and ListRessources) 
+		 	   besser Idee?
+		 
 Example:
+	ctrl = "Server response"
+	information = "AddRessource is successful"
+	payload = "mypicture.jpg#127.0.0.1@3534\nmytext.tex#127.0.1.1@3345"
+
+// alte version	
+//@Request  :: Command 			/ Request or Offer
+//	  :: [Ressource]@[Address] 	/ What is requested/offered
+//Example:
+//	String s = Command@picture.png@IP:Port
+//@Response :: [List<String>]		/ Data returned by SuperServer 	
+//Example:
+
+
+
 	
 @Command :: [Abstract Object over List of Commands]
 	AddRessource();
