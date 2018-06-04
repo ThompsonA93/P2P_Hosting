@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="p2p_communication/project/AS_P2P_PROJ_COM/src"/>
+	<classpathentry kind="lib" path="p2p_communication/final jar/p2p_com.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="output" path="p2p_communication/project/AS_P2P_PROJ_COM/bin"/>
+</classpath>
