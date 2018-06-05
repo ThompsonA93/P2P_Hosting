@@ -43,10 +43,10 @@ public class Servermethod {
 	public P2PMessage dealRequest(){
 		P2PMessage result = new P2PMessage();
 		switch (command) {
-		case "AddRessource":
+		case "AddResource":
 			result =  updateDHT();
 			break;
-		case "GetRessource":
+		case "GetResource":
 			result =  fetchFromDHT();
 			break;
 		case "detachRessource":
@@ -58,11 +58,55 @@ public class Servermethod {
 		}
 		return result;
 	}
+	
+	/**
+	 * Return resource and IP@Port, which client wants. If it dose not have, return notfound message
+	 * 
+	 * @return result Response P2PMessage to Client
+	 */
 	public P2PMessage fetchFromDHT(){
-		return null;
+		String filename = new String(payload);
+		Set<String> setKey = GHTlist.keySet();
+		Iterator<String> iterator = setKey.iterator();
+		P2PMessage response = new P2PMessage();
+		while(iterator.hasNext()){
+			String key = iterator.next();
+			System.out.println("adress = "+key);
+			List<String> flist = new ArrayList<>();
+			flist = GHTlist.get(key);
+			for (String string : flist) {
+				if (filename.equals(string)) {
+					response.setControl("Server response OK");
+					response.setInformation("GetResource is successful");
+					String payl = string+"#"+key;
+					response.setPayload(payl.getBytes());
+					return response;
+				}
+			}
+		}
+		
+		return notfind();
+		
+	}
+	
+	/**
+	 * If not found resource, Server return this Message to Client
+	 * 
+	 * 
+	 * @return result Response P2PMessage to Client
+	 */
+	public P2PMessage notfind(){
+		P2PMessage response = new P2PMessage();
+		response.setControl("Server response NO");
+		response.setInformation("Resource not found");
+		response.setPayload("ServerPAYLOAD".getBytes());
+		return response;
 	}
 	/**
-	 * Get Ressource list from Client, store those list as value in a Hashmap, which key is "IP@Port".
+	 * Get resource list from Client, stores those list as value in a Hashmap, which key is "IP@Port".
+	 * If same client second time calls this method, it will check, if DHT contains the second resource than do nothing,
+	 * if not contains, adds it to DHT
+	 * 
 	 * 
 	 * @return result Response P2PMessage to Client
 	 */
@@ -70,24 +114,34 @@ public class Servermethod {
 		String filenames = new String(payload);
 		List<String> list = new ArrayList<>();
 		String[] filenamelist = filenames.split("\n");
-		System.out.println("filename:");
 		for (String string : filenamelist) {
 			list.add(string);
 		}
-		GHTlist.put(information, list);
+		
 		Set<String> setKey = GHTlist.keySet();
+		if (setKey.isEmpty()) {
+			GHTlist.put(information, list);
+		}
 		Iterator<String> iterator = setKey.iterator();
 		while(iterator.hasNext()){
 			String key = iterator.next();
-			System.out.println("adress = "+key);
 			List<String> flist = new ArrayList<>();
 			flist = GHTlist.get(key);
-			for (String string : flist) {
-				System.out.println(string);
+			if (key.equals(information)) {
+				for (String string1 : filenamelist) {
+					if (flist.contains(string1)) {
+						break;
+					}else{
+						flist.add(string1);
+					}
+				}
+			}else{
+				GHTlist.put(information, list);
 			}
 		}
+		printHM();
 		P2PMessage response = new P2PMessage();
-		response.setControl("Server response");
+		response.setControl("Server response OK");
 		response.setInformation("AddRessource is successful");
 		response.setPayload("ServerPAYLOAD".getBytes());
 		return response;
@@ -125,6 +179,25 @@ public class Servermethod {
 
 	public void setPayload(byte[] payload) {
 		this.payload = payload;
+	}
+	
+	/**
+	 * print HDT, to test
+	 */
+	public void printHM(){
+		System.out.println("GHTlist is:");
+		Set<String> setKey = GHTlist.keySet();
+		Iterator<String> iterator = setKey.iterator();
+		while(iterator.hasNext()){
+			String key = iterator.next();
+			System.out.println("adress = "+key);
+			List<String> flist = new ArrayList<>();
+			flist = GHTlist.get(key);
+			for (String string : flist) {
+				System.out.println(string);
+				
+			}
+		}
 	}
 	
 }

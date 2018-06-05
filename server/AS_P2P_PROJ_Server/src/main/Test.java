@@ -37,11 +37,11 @@ public class Test {
  		server.start();
  		
  		P2PComServerCtrlCmdManager ctrlManager = P2PComServerCtrlCmdManager.getInstance();
- 			ctrlManager.addControlCommand(new P2PComServerControlCommand("AddRessource"){
+ 			ctrlManager.addControlCommand(new P2PComServerControlCommand("AddResource"){
  			@Override
  			public void processRequest(P2PMessage request, P2PMessage response) {
  				
-				System.out.println("Called [AddRessource]:");
+				System.out.println("Called [AddResource]:");
  				System.out.println("Got payload -> " + new String(request.getPayload()));
  				P2PMessage servermassage = Servermethod.getInstance().setmessage(request);
  				response.setControl(servermassage.getControl());
@@ -51,16 +51,16 @@ public class Test {
  			
  		});
  		
- 		ctrlManager.addControlCommand(new P2PComServerControlCommand("CTRL2"){
+ 		ctrlManager.addControlCommand(new P2PComServerControlCommand("GetResource"){
  
  			@Override
  			public void processRequest(P2PMessage request, P2PMessage response) {
- 				System.out.println("Called [CTRL2]:");
+ 				System.out.println("Called [GetResource]:");
  				System.out.println("Got payload -> " + new String(request.getPayload()));
- 				
- 				response.setControl("Server-CTRL2");
- 				response.setInformation("Server-INFO");
- 				response.setPayload("Server-PAYLOAD".getBytes());
+ 				P2PMessage servermassage = Servermethod.getInstance().setmessage(request);
+ 				response.setControl(servermassage.getControl());
+ 				response.setInformation(servermassage.getInformation());
+ 				response.setPayload(servermassage.getPayload());
  			}
  			
  		});
@@ -70,9 +70,9 @@ public class Test {
 		System.out.println("Hello");
 		P2PComClient client = new P2PComClient("localhost",3000);
 		
-		System.out.println("Sending AddRessource");
+		System.out.println("Sending AddResource");
 		P2PMessage msg = new P2PMessage();
-		msg.setControl("AddRessource");
+		msg.setControl("AddResource");
 		msg.setInformation("127.0.0.1@3534");
 		String pa = "mypicture.jpg\nmytext.tex";
 		msg.setPayload(pa.getBytes());
@@ -82,10 +82,11 @@ public class Test {
 			System.out.println("Received:\n" + new String(response.toBytes()));
 			
 			
-			System.out.println("Sending CTRL2");
+			System.out.println("Sending AddResource");
 			msg = new P2PMessage();
-			msg.setControl("CTRL2");
-			msg.setPayload("Client-PAYLOAD".getBytes());
+			msg.setControl("AddResource");
+			msg.setInformation("127.0.0.1@3534");
+			msg.setPayload("mypictur.jpg".getBytes());
 			response = client.send(msg);
 			System.out.println("Received:\n" + new String(response.toBytes()));
 		}else{
