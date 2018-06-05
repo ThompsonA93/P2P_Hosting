@@ -22,7 +22,7 @@ public class P2PComClient {
 	/**
 	 * Sends a message to the server. 
 	 * @param msg response of the server
-	 * @return
+	 * @return null if server was not reachable or the received message has an invalid format
 	 */
 	public P2PMessage send(P2PMessage msg){
 		
@@ -32,6 +32,7 @@ public class P2PComClient {
 			socket = new Socket(serverAddress, serverPort);
 		}catch (IOException e){
 			System.err.println("Could not connect to server [" + serverAddress + ":" + serverPort + "]!");
+			return null;
 		}
 		
 		try {

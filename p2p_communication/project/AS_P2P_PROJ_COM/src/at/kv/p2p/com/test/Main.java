@@ -1,14 +1,10 @@
 package at.kv.p2p.com.test;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import at.kv.p2p.com.P2PMessage;
 import at.kv.p2p.com.client.P2PComClient;
 import at.kv.p2p.com.server.P2PComServer;
 import at.kv.p2p.com.server.P2PComServerControlCommand;
 import at.kv.p2p.com.server.P2PComServerCtrlCmdManager;
-import at.kv.p2p.com.server.P2PComServerMethod;
 
 public class Main {
 	
@@ -23,16 +19,16 @@ public class Main {
 		
 		P2PComServerCtrlCmdManager ctrlManager = P2PComServerCtrlCmdManager.getInstance();
 		
-		ctrlManager.addControlCommand(new P2PComServerControlCommand("AddRessource"){
+		ctrlManager.addControlCommand(new P2PComServerControlCommand("CTRL1"){
 
 			@Override
 			public void processRequest(P2PMessage request, P2PMessage response) {
-				System.out.println("Called [AddRessource]:");
+				System.out.println("Called [CTRL1]:");
 				System.out.println("Got payload -> " + new String(request.getPayload()));
-				P2PMessage servermassage = P2PComServerMethod.getInstance().setmessage(request);
-				response.setControl(servermassage.getControl());
-				response.setInformation(servermassage.getInformation());
-				response.setPayload(servermassage.getPayload());
+				
+				response.setControl("Server-CTRL1");
+				response.setInformation("Server-INFO");
+				response.setPayload("Server-PAYLOAD".getBytes());
 			}
 			
 		});
@@ -57,24 +53,29 @@ public class Main {
 	public void startAsClient(){
 		P2PComClient client = new P2PComClient("localhost",3000);
 		
-		System.out.println("Sending AddRessource");
+		System.out.println("Sending CTRL1");
 		P2PMessage msg = new P2PMessage();
-		msg.setControl("AddRessource");
-		msg.setInformation("127.0.0.1@3534");
-		String pa = "mypicture.jpg\nmytext.tex";
-		msg.setPayload(pa.getBytes());
-		P2PMessage response = client.send(msg);
-		System.out.println("Received:\n" + new String(response.toBytes()));
-				
-		System.out.println("Sending CTRL2");
-		msg = new P2PMessage();
-		msg.setControl("CTRL2");
+		msg.setControl("CTRL1");
 		msg.setPayload("Client-PAYLOAD".getBytes());
-		response = client.send(msg);
-		System.out.println("Received:\n" + new String(response.toBytes()));
+		P2PMessage response = client.send(msg);
 		
+		if(response != null){
+			System.out.println("Received:\n" + new String(response.toBytes()));
+			
+			
+			System.out.println("Sending CTRL2");
+			msg = new P2PMessage();
+			msg.setControl("CTRL2");
+			msg.setPayload("Client-PAYLOAD".getBytes());
+			response = client.send(msg);
+			System.out.println("Received:\n" + new String(response.toBytes()));
+		}else{
+			System.out.println("Connection failed!");
+		}
 		
 	}
+	
+	
 	
 
 	public static void main(String[] args) {
