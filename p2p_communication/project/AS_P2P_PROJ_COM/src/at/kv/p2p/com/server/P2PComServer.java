@@ -127,7 +127,6 @@ public class P2PComServer implements Runnable{
 		
 		//invoke command
 		P2PMessage responseMsg = P2PComServerCtrlCmdManager.getInstance().processCommands(msg);
-		
 		//send response
 		if(responseMsg != null){
 			os.write(responseMsg.toBytes());
