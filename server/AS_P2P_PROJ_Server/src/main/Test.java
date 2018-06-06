@@ -16,7 +16,6 @@ import at.kv.p2p.com.test.Main;
 public class Test {
 	
 	public static void main(String[] args) {
-		System.out.println("Hello World");
 		System.out.println("Arguments:");
 		System.out.println("-c ... starts as client");
 		System.out.println("-s ... starts as server");
@@ -37,7 +36,7 @@ public class Test {
  		server.start();
  		
  		P2PComServerCtrlCmdManager ctrlManager = P2PComServerCtrlCmdManager.getInstance();
- 			ctrlManager.addControlCommand(new P2PComServerControlCommand("AddResource"){
+ 		ctrlManager.addControlCommand(new P2PComServerControlCommand("AddResource"){
  			@Override
  			public void processRequest(P2PMessage request, P2PMessage response) {
  				
@@ -64,10 +63,37 @@ public class Test {
  			}
  			
  		});
+ 		
+ 		ctrlManager.addControlCommand(new P2PComServerControlCommand("DetachResource"){
+ 			 
+ 			@Override
+ 			public void processRequest(P2PMessage request, P2PMessage response) {
+ 				System.out.println("Called [DetachResource]:");
+ 				System.out.println("Got payload -> " + new String(request.getPayload()));
+ 				P2PMessage servermassage = Servermethod.getInstance().setmessage(request);
+ 				response.setControl(servermassage.getControl());
+ 				response.setInformation(servermassage.getInformation());
+ 				response.setPayload(servermassage.getPayload());
+ 			}
+ 			
+ 		});
+ 		
+ 		ctrlManager.addControlCommand(new P2PComServerControlCommand("ListResource"){
+ 			 
+ 			@Override
+ 			public void processRequest(P2PMessage request, P2PMessage response) {
+ 				System.out.println("Called [ListResource]:");
+ 				System.out.println("Got payload -> " + new String(request.getPayload()));
+ 				P2PMessage servermassage = Servermethod.getInstance().setmessage(request);
+ 				response.setControl(servermassage.getControl());
+ 				response.setInformation(servermassage.getInformation());
+ 				response.setPayload(servermassage.getPayload());
+ 			}
+ 			
+ 		});
 	}
 	
 	public void startAsClient(){
-		System.out.println("Hello");
 		P2PComClient client = new P2PComClient("localhost",3000);
 		
 		System.out.println("Sending AddResource");
@@ -82,11 +108,11 @@ public class Test {
 			System.out.println("Received:\n" + new String(response.toBytes()));
 			
 			
-			System.out.println("Sending AddResource");
+			System.out.println("Sending ListResource");
 			msg = new P2PMessage();
-			msg.setControl("AddResource");
+			msg.setControl("ListResource");
 			msg.setInformation("127.0.0.1@3534");
-			msg.setPayload("mypictur.jpg".getBytes());
+			msg.setPayload("mypicture.jpg".getBytes());
 			response = client.send(msg);
 			System.out.println("Received:\n" + new String(response.toBytes()));
 		}else{

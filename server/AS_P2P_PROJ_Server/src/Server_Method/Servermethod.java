@@ -49,10 +49,10 @@ public class Servermethod {
 		case "GetResource":
 			result =  fetchFromDHT();
 			break;
-		case "detachRessource":
-			result =  updateDHT();
+		case "DetachResource":
+			result =  detachDHT();
 			break;
-		case "listRessources":
+		case "ListResource":
 			result =  listDHTRessouces();
 			break;
 		}
@@ -146,15 +146,50 @@ public class Servermethod {
 		response.setPayload("ServerPAYLOAD".getBytes());
 		return response;
 	}
-	
+	/**
+	 *Logout the client, delete all flies, which belong to this client.
+	 * 
+	 * 
+	 * @return result Response P2PMessage to Client
+	 */
 	public P2PMessage detachDHT(){
-		
-		
-		
-		return null;
+		if (GHTlist.containsKey(information)) {
+			GHTlist.remove(information);
+			printHM();
+			P2PMessage response = new P2PMessage();
+			response.setControl("Server response OK");
+			response.setInformation("DetachResource is successful");
+			response.setPayload("ServerPAYLOAD".getBytes());
+			return response;
+		}else{
+			return notfind();
+		}
 	}
+	
+	/**
+	 *Give client a list of all active Files with IP
+	 * 
+	 * 
+	 * @return result Response P2PMessage to Client
+	 */
 	public P2PMessage listDHTRessouces(){
-		return null;
+		String filelist = "";
+		Set<String> setKey = GHTlist.keySet();
+		Iterator<String> iterator = setKey.iterator();
+		while(iterator.hasNext()){
+			String key = iterator.next();
+			List<String> flist = new ArrayList<>();
+			flist = GHTlist.get(key);
+			for (String string : flist) {
+				filelist = filelist+string+"#"+key+"\n";
+			}
+		}
+		P2PMessage response = new P2PMessage();
+		response.setControl("Server response OK");
+		response.setInformation("ListResource is successful");
+		response.setPayload(filelist.getBytes());
+		
+		return response;
 	}
 	
 	public String getCommand() {
