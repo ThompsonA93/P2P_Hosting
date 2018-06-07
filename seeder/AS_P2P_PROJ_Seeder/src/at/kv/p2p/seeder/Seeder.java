@@ -1,7 +1,9 @@
 package at.kv.p2p.seeder;
 	
 import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
 import javafx.stage.Stage;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 
@@ -10,11 +12,22 @@ public class Seeder extends Application {
 	@Override
 	public void start(Stage primaryStage) {
 		try {
-			BorderPane root = new BorderPane();
+			/*BorderPane root = new BorderPane();
 			Scene scene = new Scene(root,1280,720);
 			scene.getStylesheets().add(getClass().getResource("/at/kv/p2p/seeder/views/MainView.fxml").toExternalForm());
 			primaryStage.setScene(scene);
+			primaryStage.show();*/
+			
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("/at/kv/p2p/seeder/views/MainView.fxml"));			
+			Parent root = loader.load();
+			
+			Scene scene = new Scene(root);				
+		
+			primaryStage.setScene(scene);
 			primaryStage.show();
+			
+			
+			
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
