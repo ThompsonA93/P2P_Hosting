@@ -11,8 +11,8 @@ public class Seeder extends Application {
 	public void start(Stage primaryStage) {
 		try {
 			BorderPane root = new BorderPane();
-			Scene scene = new Scene(root,400,400);
-			scene.getStylesheets().add(getClass().getResource("/at/kv/p2p/seeder/views/mainView.css").toExternalForm());
+			Scene scene = new Scene(root,1280,720);
+			scene.getStylesheets().add(getClass().getResource("/at/kv/p2p/seeder/views/MainView.fxml").toExternalForm());
 			primaryStage.setScene(scene);
 			primaryStage.show();
 		} catch(Exception e) {
