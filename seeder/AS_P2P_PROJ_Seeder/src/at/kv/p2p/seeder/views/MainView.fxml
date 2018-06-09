@@ -10,7 +10,7 @@
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane maxHeight="720" maxWidth="1280" minHeight="720" minWidth="1280" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="at.kv.p2p.seeder.views.MainView">
+<AnchorPane maxHeight="720" maxWidth="1280" minHeight="720" minWidth="1280" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <MenuBar layoutY="2.0" prefHeight="25.0" prefWidth="1280.0">
         <menus>
@@ -26,21 +26,22 @@
           </Menu>
         </menus>
       </MenuBar>
-      <TableView layoutX="20.0" layoutY="110.0" prefHeight="256.0" prefWidth="1240.0">
+      <TableView fx:id="tableFiles" layoutX="20.0" layoutY="110.0" prefHeight="256.0" prefWidth="1240.0">
         <columns>
-          <TableColumn prefWidth="503.0" text="File" />
-          <TableColumn prefWidth="482.0" text="Directory" />
-            <TableColumn prefWidth="51.0" text="Type" />
-            <TableColumn prefWidth="56.0" text="Size" />
-            <TableColumn prefWidth="147.0" text="Date" />
+          <TableColumn fx:id="tableColumnFile" prefWidth="232.0" text="File" />
+          <TableColumn fx:id="tableColumnFullPath" prefWidth="642.0" text="Full path" />
+            <TableColumn fx:id="tableColumnType" prefWidth="36.0" text="Type" />
+            <TableColumn fx:id="tableColumnSize" minWidth="0.0" prefWidth="79.0" text="Size [Byte]" />
+            <TableColumn fx:id="tableColumnDate" minWidth="5.0" prefWidth="157.0" text="Date" />
+            <TableColumn fx:id="tableColumnID" prefWidth="92.0" text="ID" />
         </columns>
       </TableView>
-      <Button layoutX="20.0" layoutY="377.0" mnemonicParsing="false" text="Add file" />
-      <Button layoutX="97.0" layoutY="377.0" mnemonicParsing="false" text="Add directory" />
-      <Button layoutX="1201.0" layoutY="377.0" mnemonicParsing="false" text="Remove" />
-      <TextArea layoutX="20.0" layoutY="436.0" prefHeight="196.0" prefWidth="1240.0" />
+      <Button fx:id="btnAddFile" layoutX="20.0" layoutY="377.0" mnemonicParsing="false" onMouseClicked="#btnAddFileClicked" text="Add file" />
+      <Button fx:id="btnAddDirectory" layoutX="97.0" layoutY="377.0" mnemonicParsing="false" onMouseClicked="#btnAddDirectoryClicked" text="Add directory" />
+      <Button fx:id="btnRemove" layoutX="1201.0" layoutY="377.0" mnemonicParsing="false" onMouseClicked="#btnRemoveClicked" text="Remove" />
+      <TextArea fx:id="txtAreaLog" editable="false" layoutX="20.0" layoutY="436.0" prefHeight="196.0" prefWidth="1240.0" />
       <Label layoutX="20.0" layoutY="87.0" text="Shared files:" />
       <Label layoutX="20.0" layoutY="415.0" text="Log:" />
-      <Button layoutX="1217.0" layoutY="642.0" mnemonicParsing="false" text="Clear" />
+      <Button fx:id="btnLogClear" layoutX="1217.0" layoutY="642.0" mnemonicParsing="false" onMouseClicked="#btnLogClearClicked" text="Clear" />
    </children>
 </AnchorPane>

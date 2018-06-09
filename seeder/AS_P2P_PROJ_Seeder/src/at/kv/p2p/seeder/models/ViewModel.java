@@ -2,7 +2,7 @@ package at.kv.p2p.seeder.models;
 
 import javafx.stage.Stage;
 
-public class ViewModel {
+public abstract class ViewModel {
 	
 	protected Stage primaryStage;
 	
@@ -10,6 +10,7 @@ public class ViewModel {
 		this.primaryStage = primaryStage;		
 	}
 	
+	public abstract void show();
 	
 
 }
