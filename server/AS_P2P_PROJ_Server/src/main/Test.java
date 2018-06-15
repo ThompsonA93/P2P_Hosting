@@ -91,16 +91,59 @@ public class Test {
  			}
  			
  		});
+ 		
+ 		ctrlManager.addControlCommand(new P2PComServerControlCommand("registerResource"){
+			 
+ 			@Override
+ 			public void processRequest(P2PMessage request, P2PMessage response) {
+ 				System.out.println("Called [registerResource]:");
+ 				System.out.println("Got payload -> " + new String(request.getPayload()));
+ 				P2PMessage servermassage = Servermethod.getInstance().setmessage(request);
+ 				response.setControl(servermassage.getControl());
+ 				response.setInformation(servermassage.getInformation());
+ 				response.setPayload(servermassage.getPayload());
+ 			}
+ 			
+ 		});
+ 		
+ 		ctrlManager.addControlCommand(new P2PComServerControlCommand("removeResource"){
+			 
+ 			@Override
+ 			public void processRequest(P2PMessage request, P2PMessage response) {
+ 				System.out.println("Called [removeResource]:");
+ 				System.out.println("Got payload -> " + new String(request.getPayload()));
+ 				P2PMessage servermassage = Servermethod.getInstance().setmessage(request);
+ 				response.setControl(servermassage.getControl());
+ 				response.setInformation(servermassage.getInformation());
+ 				response.setPayload(servermassage.getPayload());
+ 			}
+ 			
+ 		});
+ 		
+ 		ctrlManager.addControlCommand(new P2PComServerControlCommand("getResources"){
+			 
+ 			@Override
+ 			public void processRequest(P2PMessage request, P2PMessage response) {
+ 				System.out.println("Called [getResources]:");
+ 				System.out.println("Got payload -> " + new String(request.getPayload()));
+ 				P2PMessage servermassage = Servermethod.getInstance().setmessage(request);
+ 				response.setControl(servermassage.getControl());
+ 				response.setInformation(servermassage.getInformation());
+ 				response.setPayload(servermassage.getPayload());
+ 			}
+ 			
+ 		});
 	}
 	
 	public void startAsClient(){
+		
 		P2PComClient client = new P2PComClient("localhost",3000);
 		
-		System.out.println("Sending AddResource");
+		System.out.println("Sending registerResource");
 		P2PMessage msg = new P2PMessage();
-		msg.setControl("AddResource");
-		msg.setInformation("127.0.0.1@3534");
-		String pa = "mypicture.jpg\nmytext.tex";
+		msg.setControl("registerResource");
+		msg.setInformation(" ");
+		String pa = "10.0.0.1\n300223\n2\nImage\n2432\n17.04.2018\n.jpg";
 		msg.setPayload(pa.getBytes());
 		P2PMessage response = client.send(msg);
 		
@@ -108,16 +151,18 @@ public class Test {
 			System.out.println("Received:\n" + new String(response.toBytes()));
 			
 			
-			System.out.println("Sending ListResource");
+			System.out.println("Sending removeResource");
 			msg = new P2PMessage();
-			msg.setControl("ListResource");
-			msg.setInformation("127.0.0.1@3534");
-			msg.setPayload("mypicture.jpg".getBytes());
+			msg.setControl("removeResource");
+			msg.setInformation(" ");
+			msg.setPayload("10.0.0.1\n3002\n2".getBytes());
 			response = client.send(msg);
 			System.out.println("Received:\n" + new String(response.toBytes()));
 		}else{
 			System.out.println("Connection failed!");
 		}
+
+		
 		
 	}
 	
