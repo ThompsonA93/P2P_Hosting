@@ -53,7 +53,8 @@ public class Servermethod {
 		case "GetResource":
 			result =  fetchFromDHT();
 			break;
-		case "DetachResource":
+		case "DetachResources":
+			splitpayload(false);
 			result =  detachDHT();
 			break;
 		case "ListResource":
@@ -298,8 +299,8 @@ public class Servermethod {
 	 * @return result Response P2PMessage to Client
 	 */
 	public P2PMessage detachDHT(){
-		if (GHTlist.containsKey(information)) {
-			GHTlist.remove(information);
+		if (GHTlist.containsKey(IPundport)) {
+			GHTlist.remove(IPundport);
 			printHM();
 			P2PMessage response = new P2PMessage();
 			response.setControl("Server response OK");
