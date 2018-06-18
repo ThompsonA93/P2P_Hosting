@@ -43,6 +43,26 @@ public class Main {
 				response.setControl("Server-CTRL2");
 				response.setInformation("Server-INFO");
 				response.setPayload("Server-PAYLOAD".getBytes());
+				
+			}
+			
+		});
+
+		ctrlManager.addControlCommand(new P2PComServerControlCommand("CTRL3"){
+
+			@Override
+			public void processRequest(P2PMessage request, P2PMessage response) {
+				System.out.println("Called [CTRL3]:");
+				System.out.println("Got payload -> ");
+				
+				for(byte b : request.getPayload()){
+					System.out.println("Byte ["+(int)b+"]");
+				}
+				
+				response.setControl("Server-CTRL3");
+				response.setInformation("Server-INFO");
+				response.setPayload("Server-PAYLOAD".getBytes());
+				
 			}
 			
 		});
@@ -69,6 +89,22 @@ public class Main {
 			msg.setPayload("Client-PAYLOAD".getBytes());
 			response = client.send(msg);
 			System.out.println("Received:\n" + new String(response.toBytes()));
+		}else{
+			System.out.println("Connection failed!");
+		}
+		
+		
+		msg.setControl("CTRL3");		
+		byte[] asdf= new byte[255];
+		for(int i = 0; i < asdf.length; i++){
+			asdf[i] = (byte)i;
+		}
+		msg.setPayload(asdf);
+		response = client.send(msg);
+		
+		if(response != null){
+			System.out.println("Received:\n" + new String(response.toBytes()));
+		
 		}else{
 			System.out.println("Connection failed!");
 		}
