@@ -11,6 +11,7 @@ public class P2PSharingManager {
 
 	private static final String CMD_REGISTER_RESOURCE = "registerResource";
 	private static final String CMD_REMOVE_RESOURCE = "removeResource";
+	private static final String CMD_DETACH_RESOURCES = "DetachResources";
 	private static final String CMD_FAILED = "failed";
 	
 	private static int idCounter = 1;
@@ -73,9 +74,22 @@ public class P2PSharingManager {
 	
 	public static void removeAllFiles(){
 		Logger.write("[P2PSharingManager] removing all files!");
+		
+		//first version
+		//collect all IDs
+		/*List<Integer> ids = new ArrayList<>();
 		for(P2PFile f : files){
-			removeFile(f.getId());
+			ids.add(f.getId());
 		}
+		
+		for(Integer id : ids){
+			removeFile(id);
+		}*/
+		
+		
+		//second version
+		removeAllResources();
+		
 	}
 	
 	private static int getIndexOf(int id){
@@ -151,6 +165,29 @@ public class P2PSharingManager {
 		}
 		
 		return true;		
+	}
+	
+	private static boolean removeAllResources(){
+		P2PComClient centralServer = new P2PComClient(SeederProperties.CENTRAL_SERVER_ADDRESS,SeederProperties.CENTRAL_SERVER_PORT);
+		P2PMessage request = new P2PMessage();
+		request.setControl(CMD_DETACH_RESOURCES);
+		String payload = "";
+		payload += SeederProperties.OWN_SERVER_ADDRESS + "\n";
+		payload += String.valueOf(SeederProperties.OWN_SERVER_PORT) + "\n";
+		payload += String.valueOf(0);
+		request.setPayload(payload.getBytes());
+		
+		P2PMessage response = centralServer.send(request);
+		
+		if(response == null){
+			return false;
+		}
+		
+		if(response.getControl().equals(CMD_FAILED)){
+			return false;
+		}
+		
+		return true;	
 	}
 	
 }
