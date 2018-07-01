@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<SplitPane dividerPositions="0.45226130653266333" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" orientation="VERTICAL" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+  <items>
+    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+         <children>
+            <TextField id="ipField" fx:id="ipField" layoutX="14.0" layoutY="14.0" prefHeight="25.0" prefWidth="220.0" promptText="Enter Server-IP" />
+            <TextField id="portField" fx:id="portField" layoutX="14.0" layoutY="47.0" prefHeight="25.0" prefWidth="220.0" promptText="Enter Server-Port" />
+            <TextField id="resourceField" fx:id="resourceField" layoutX="14.0" layoutY="82.0" prefHeight="25.0" prefWidth="220.0" promptText="Enter Ressource" />
+            <Button id="connectButton" fx:id="connectButton" layoutX="14.0" layoutY="123.0" mnemonicParsing="false" onAction="#connect" text="Connect" />
+            <Button id="exitButton" fx:id="exitButton" layoutX="191.0" layoutY="123.0" mnemonicParsing="false" onAction="#exit" text="Exit" />
+            <Button id="helpButton" layoutX="113.0" layoutY="123.0" mnemonicParsing="false" text="Help" />
+            <TextArea id="loggerArea" layoutX="283.0" layoutY="-4.0" prefHeight="183.0" prefWidth="316.0" />
+         </children></AnchorPane>
+    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+         <children>
+            <TableView id="serverView" fx:id="serverView" prefHeight="214.0" prefWidth="598.0">
+              <columns>
+                <TableColumn id="IPColumn" fx:id="serverIPColumn" prefWidth="101.0" text="Server" />
+                <TableColumn id="PortColumn" fx:id="serverPortColumn" prefWidth="61.0" text="Port" />
+                  <TableColumn id="resourceIDColumn" prefWidth="53.0" text="Id" />
+                  <TableColumn id="resourceNameColumn" fx:id="serverResourceColumn" prefWidth="213.0" text="Resource" />
+                  <TableColumn id="typeColumn" maxWidth="103.0" prefWidth="74.0" text="Type" />
+                  <TableColumn id="sizeColumn" prefWidth="95.0" text="Size" />
+              </columns>
+            </TableView>
+         </children></AnchorPane>
+  </items>
+</SplitPane>
