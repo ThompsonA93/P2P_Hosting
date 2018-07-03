@@ -1,5 +1,7 @@
 package logic;
 
+import java.math.BigInteger;
+
 import at.kv.p2p.com.P2PMessage;
 import at.kv.p2p.com.client.P2PComClient;
 import leecher.Leecher;
@@ -37,17 +39,16 @@ public class Connector {
 	}
 
 	/** Fetches ressource by ID and translates it into File - creates dir if n/a
-	 * @param ip
-	 * @param port
-	 * @param id
+	 * @param resourceToFetch: Predetermined Data from ServerTable
+	 * FIXME: Find an alternative way to incur int to byte[]
 	 */
-	public void getResourceFromSeeder(String ip, int port, int id) {
+	public void getResourceFromSeeder(SeederData resourceToFetch) {
 		Leecher.logger.write("### Creating Connection to seeder.");
-		connection = new P2PComClient(ip, port);
-		request = new P2PMessage("getResources", "", new byte[0]);
+		connection = new P2PComClient(resourceToFetch.getIP(), resourceToFetch.getPort());
+		request = new P2PMessage("downloadResource", "", new BigInteger(String.valueOf(resourceToFetch.getID())).toByteArray() );
 		response = connection.send(request);
 				
 		FileConverter fc = new FileConverter();
-		fc.convertToFile(fc.decodeB64(response.getPayload()));
+		fc.convertToFile(fc.decodeB64(response.getPayload()), resourceToFetch.getName() , resourceToFetch.getType());
 	}
 }

@@ -11,10 +11,11 @@
             <TextField id="ipField" fx:id="ipField" layoutX="14.0" layoutY="14.0" prefHeight="25.0" prefWidth="220.0" promptText="Enter Server-IP" />
             <TextField id="portField" fx:id="portField" layoutX="14.0" layoutY="47.0" prefHeight="25.0" prefWidth="220.0" promptText="Enter Server-Port" />
             <TextField id="resourceField" fx:id="resourceField" layoutX="14.0" layoutY="82.0" prefHeight="25.0" prefWidth="220.0" promptText="Enter Ressource" />
-            <Button id="connectButton" fx:id="connectButton" layoutX="14.0" layoutY="123.0" mnemonicParsing="false" onAction="#connect" text="Connect" />
-            <Button id="exitButton" fx:id="exitButton" layoutX="191.0" layoutY="123.0" mnemonicParsing="false" onAction="#exit" text="Exit" />
-            <Button id="helpButton" layoutX="113.0" layoutY="123.0" mnemonicParsing="false" text="Help" />
+            <Button id="connectButton" fx:id="connectButton" layoutX="14.0" layoutY="140.0" mnemonicParsing="false" onAction="#connect" text="Connect" />
+            <Button id="exitButton" fx:id="exitButton" layoutX="191.0" layoutY="140.0" mnemonicParsing="false" onAction="#exit" text="Exit" />
+            <Button id="helpButton" layoutX="113.0" layoutY="140.0" mnemonicParsing="false" text="Help" />
             <TextArea id="loggerArea" layoutX="283.0" layoutY="-4.0" prefHeight="183.0" prefWidth="316.0" />
+            <CheckBox id="ffCheckbox" fx:id="ffCheckbox" layoutX="14.0" layoutY="114.0" mnemonicParsing="false" text="Enable Force Fetch" />
          </children></AnchorPane>
     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
          <children>

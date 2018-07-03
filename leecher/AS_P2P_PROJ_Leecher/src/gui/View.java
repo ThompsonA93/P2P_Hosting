@@ -1,11 +1,14 @@
 package gui;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Orientation;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.SplitPane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -14,7 +17,9 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+
 import leecher.Leecher;
+import logic.ComponentConfigurator;
 import logic.Connector;
 import logic.SeederData;
 
@@ -24,7 +29,8 @@ import logic.SeederData;
  * TODO: Outsource somewhere
  */
 public class View extends Application{
-	
+
+	private Scene scene;
 	private SplitPane container;
 	private AnchorPane topPane, botPane;
 	private TableView serverTable;
@@ -43,58 +49,28 @@ public class View extends Application{
 		linkComponents();
 		configureMechanics();
 		
-		Scene scene = new Scene(container, 600, 400);
+		scene = new Scene(container, 600, 400);
 		stage.setScene(scene);
+		stage.setResizable(false);
 		stage.show();
 	}
 
-	/**
-	 * Setup of Configurations for each Node within the Scene.
+	/** Setup of Configurations for each Node within the Scene.
 	 */
 	private void configureMechanics() {
-		// FIXME: Probably correct?
+		ComponentConfigurator cc = new ComponentConfigurator();
+		
 		ipColumn.setCellValueFactory(new PropertyValueFactory<SeederData, String>("IP"));
 		portColumn.setCellValueFactory(new PropertyValueFactory<SeederData, Integer>("Port"));
 		resourceIDColumn.setCellValueFactory(new PropertyValueFactory<SeederData, Integer>("ID"));
 		resourceNameColumn.setCellValueFactory(new PropertyValueFactory<SeederData, String>("Name"));
 		typeColumn.setCellValueFactory(new PropertyValueFactory<SeederData, Integer>("Size"));
 		sizeColumn.setCellValueFactory(new PropertyValueFactory<SeederData, String>("Type"));
-		
-		Leecher.logger.setlogArea(logArea);
-		
-		connectButton.setOnAction(d -> {
-			if(resourceField.getText().isEmpty()) {
-				String[] seeders = new Connector().getResourcesFromServer(
-						ipField.getText(), 
-						Integer.parseInt(portField.getText())
-				);
-				
-				for(String s : seeders) {
-					data.add(new SeederData(s));
-					// TODO? Update on List, not sure if complete here.
-				}		
-				
-			}else {
-				// FIXME Support different file types.
-				new Connector().getResourceFromSeeder(
-						ipField.getText(), 
-						Integer.parseInt(portField.getText()), 
-						Integer.parseInt(resourceField.getText())
-				);	
-				
-				
-				
-				
-			}
-		});
-		
-		helpButton.setOnAction(d -> {
-			Leecher.logger.help();
-		});
-		
-		exitButton.setOnAction(d -> {
-			System.exit(0);		
-		}); 
+
+		cc.configureLoggerArea(logArea);
+		cc.configureConnectButton(connectButton, ipField, portField, resourceField, data);
+		cc.configureHelpButton(helpButton);
+		cc.configureExitButton(exitButton);
 	}
 
 	/**
@@ -103,7 +79,7 @@ public class View extends Application{
 	private void linkComponents() {	
 		
 		serverTable.setItems(data);
-
+		
 /*		serverTable.getItems().addAll(
 				ipColumn,
 				portColumn,
@@ -167,24 +143,21 @@ public class View extends Application{
 		logArea.setText("## Assuming Log-Functionality ##");
 		logArea.setWrapText(true);
 		
-		
 		connectButton = new Button();
 		connectButton.setLayoutX(14.0);
-		connectButton.setLayoutY(123.0);
+		connectButton.setLayoutY(140.0);
 		connectButton.setText("Connect");
 	
 		helpButton = new Button();
 		helpButton.setLayoutX(113.0);
-		helpButton.setLayoutY(123.0);
+		helpButton.setLayoutY(140.0);
 		helpButton.setText("Help");
-
 		
 		exitButton = new Button();
 		exitButton.setLayoutX(191.0);
-		exitButton.setLayoutY(123.0);
+		exitButton.setLayoutY(140.0);
 		exitButton.setText("Exit");
-
-				
+		
 		serverTable = new TableView();
 		serverTable.setPrefHeight(214.0);
 		serverTable.setPrefWidth(600.0);

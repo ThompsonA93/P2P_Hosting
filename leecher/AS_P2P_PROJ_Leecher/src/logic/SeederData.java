@@ -29,5 +29,27 @@ public class SeederData {
 		this.name = name;
 		this.size = size;
 		this.type = type;
-	}	
+	}
+	
+	public String getIP() {
+		return this.ip;
+	}
+
+	public int getPort() {
+		return this.port;
+	}
+	
+	public int getID() {
+		return this.id;
+	}
+
+	public String getType() {
+		return this.type;
+	}
+
+	public String getName() {
+		return this.name;
+	}
+	
+	
 }
