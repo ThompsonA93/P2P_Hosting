@@ -1,8 +1,6 @@
 package logic;
 
-/**
- * Received from Mainserver and Mainserver only
- * 
+/** Handled data received from Mainserver and Mainserver only
  */
 public class SeederData {
 	private String ip = "";
@@ -51,5 +49,7 @@ public class SeederData {
 		return this.name;
 	}
 	
-	
+	public int getSize() {
+		return this.size;
+	}
 }

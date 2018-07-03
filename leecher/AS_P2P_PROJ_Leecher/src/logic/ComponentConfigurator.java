@@ -1,39 +1,41 @@
 
 package logic;
 
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import leecher.Leecher;
 
-/** Refactored from View for less bile on the laptop - Configures core-mechanics in View
- * TODO At some later time. Throws really weird bugs once realized in .View.java
+/** Contains the split Logic from View
  */
 public class ComponentConfigurator {
-	public void configureForceFetchCheckBox(CheckBox cb) {
-        cb.selectedProperty().addListener(new ChangeListener<Boolean>() {
-			@Override
-			public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-				if(newValue) {
-					Leecher.logger.write("# Force Fetch has been activated. \n\t We hope you know what you are doing.");	
-				}else {
-					Leecher.logger.write("# Force Fetch has been deactivated. \n\t Assuming default execution.");
-				}
-                				
-			}
-        });		
-	}
 
+	/** Sets the Loggers Area 
+	 * @param logArea: Area for the logger to write in.
+	 */
 	public void configureLoggerArea(TextArea logArea) {
 		Leecher.logger.setlogArea(logArea);		
 	}
 
+	/**
+	 * Sets the Events for the connectbutton.
+	 * @param connectButton: Event-Activator
+	 * @param ipField: Field to hold ServersIP
+	 * @param portField: Field to hold ServersPort
+	 * @param resourceField: Field to hold resourceID
+	 * @param data: Output Location
+	 */
 	public void configureConnectButton(Button connectButton, TextField ipField, TextField portField, TextField resourceField, ObservableList<SeederData> data) {
 	connectButton.setOnAction(d -> {
+		if(ipField.getText().isEmpty()) {
+			Leecher.logger.write("# No IP has been specified!");
+			// TODO Cancel event
+		}
+		if(ipField.getText().isEmpty()) {
+			Leecher.logger.write("# No Port has been specified!");
+			// TODO Cancel event
+		}
 		
 		if(resourceField.getText().isEmpty()) {
 			Connector rootServerCon = new Connector();			
@@ -51,28 +53,40 @@ public class ComponentConfigurator {
 			Connector seederCon = new Connector();			
 				try {
 					int id = Integer.parseInt(resourceField.getText());
-//					SeederData resourceToFetch = data.get(data.indexOf(id)); // FIXME?
 					SeederData resourceToFetch  = null;
+
 					for(SeederData sd : data) {
 						if(sd.getID() == id) {
 							resourceToFetch = sd;
 							break;
 						}
 					}
+					
+					if(resourceToFetch.equals(null)) {
+						// TODO Cancel event
+					}
 					seederCon.getResourceFromSeeder(resourceToFetch);
 				}catch(ArrayIndexOutOfBoundsException ae) {
 					Leecher.logger.write("# The resources data has not been pre-fetched to the table.\n\tConnect to a root server first.");
 				}					
 			}				
-		});	// End of connectbutton
+		});
 	}
 
+	/**
+	 * Configures button to call upon 'help'
+	 * @param helpButton: Event-Activator
+	 */
 	public void configureHelpButton(Button helpButton) {
 		helpButton.setOnAction(d -> {
 			Leecher.logger.help();
 		});		
 	}
 
+	/**
+	 * Configures button to terminate leecher
+	 * @param exitButton: Event-Activator
+	 */
 	public void configureExitButton(Button exitButton) {
 		exitButton.setOnAction(d -> {
 			System.exit(0);		

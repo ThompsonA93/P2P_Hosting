@@ -2,9 +2,7 @@ package logic;
 
 import javafx.scene.control.TextArea;
 
-/**
- * Logger used for the Leecherclient
- * -- Used within Global Context
+/** Logger used for the Leecherclient, used within Global Context
  */
 public class Logger {
 	TextArea logArea;
@@ -16,15 +14,15 @@ public class Logger {
 	}
 	
 	public void help() {
-		logArea.setText("-- Welcome to the Leecher-Client --\n"
-				+ "- Connect to Root Server\n"
-				+ "To do so, enter the IP and the Port of a root server that you know of."
-				+ " Leave the Field for resources empty.\n"
-				+ "- Connect to Seeder\n"
-				+ "Assuming you have fetched information about possible seeders from the server"
-				+ "of your choice, enter the seeders information and the data's ID that u wish to fetch.\n"
-				+ "- The Force Fetch: Use the ForceFetch to directly connect to an assumed seeder. We do not"
-				+ "recommend using it.\n\n"
+		logArea.setText("| Welcome to the Leecher-Client |\n"
+				+ " +-+-+-+-+-+-+-+-+-+-+-+-+-+\n Connect to Root Server :: "
+				+ "To connect to a root server, state it's IP and Port in thei respective fields to the upper left."
+				+ " Leave the Field for resources empty and press 'Connect'\n"
+				+ " +-+-+-+-+-+-+-+-+-+-+-+-+-+\n Connect to Seeder :: "
+				+ "To secure the connection to seeder, you require the verified root-servers information."
+				+ " You specify the data you wish to download via the seeders IP and Port, aswell as the data's ID."
+				+ "The transmitted data will be written in the directory of the leecher-executable.\n"
+				+ " +-+-+-+-+-+-+-+-+-+-+-+-+-+\n"
 				+ "## Assuming Log-Functionality ##\n");
 	}
 

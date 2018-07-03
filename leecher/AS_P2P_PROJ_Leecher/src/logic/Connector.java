@@ -1,7 +1,5 @@
 package logic;
 
-import java.math.BigInteger;
-
 import at.kv.p2p.com.P2PMessage;
 import at.kv.p2p.com.client.P2PComClient;
 import leecher.Leecher;
@@ -45,10 +43,10 @@ public class Connector {
 		Leecher.logger.write("### Creating Connection to seeder.");
 		
 		connection = new P2PComClient(resourceToFetch.getIP(), resourceToFetch.getPort());
-//		request = new P2PMessage("downloadResource", "", new BigIntoteger(String.valueOf(resourceToFetch.getID())).toByteArray() );
 		request = new P2PMessage("downloadResource", "", (resourceToFetch.getID()+"").getBytes());
 		response = connection.send(request);
-				
+
+		Leecher.logger.write("# Successfully exchanged data.");
 		FileConverter fc = new FileConverter();
 		fc.convertToFile(fc.decodeB64(response.getPayload()), resourceToFetch.getName() , resourceToFetch.getType());
 	}

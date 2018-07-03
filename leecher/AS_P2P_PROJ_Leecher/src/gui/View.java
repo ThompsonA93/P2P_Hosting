@@ -25,8 +25,6 @@ import logic.SeederData;
 
 /**
  * Generic User Interface Setup
- * TODO: Possible redundancy with TableColumns.
- * TODO: Outsource somewhere
  */
 public class View extends Application{
 
