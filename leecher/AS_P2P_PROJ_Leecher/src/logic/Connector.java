@@ -10,7 +10,6 @@ import leecher.Leecher;
  * Class to setup connections.
  */
 public class Connector {
-
 	private P2PComClient connection;
 	private P2PMessage request, response;
 
@@ -44,8 +43,10 @@ public class Connector {
 	 */
 	public void getResourceFromSeeder(SeederData resourceToFetch) {
 		Leecher.logger.write("### Creating Connection to seeder.");
+		
 		connection = new P2PComClient(resourceToFetch.getIP(), resourceToFetch.getPort());
-		request = new P2PMessage("downloadResource", "", new BigInteger(String.valueOf(resourceToFetch.getID())).toByteArray() );
+//		request = new P2PMessage("downloadResource", "", new BigIntoteger(String.valueOf(resourceToFetch.getID())).toByteArray() );
+		request = new P2PMessage("downloadResource", "", (resourceToFetch.getID()+"").getBytes());
 		response = connection.send(request);
 				
 		FileConverter fc = new FileConverter();

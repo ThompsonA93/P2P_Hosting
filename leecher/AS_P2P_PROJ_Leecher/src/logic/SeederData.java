@@ -13,7 +13,7 @@ public class SeederData {
 	private String type = "";
 
 	public SeederData(String s) {
-		String[] dataSet = s.split("$");
+		String[] dataSet = s.split("\\$");
 		this.ip = dataSet[0];
 		this.port = Integer.parseInt(dataSet[1]);
 		this.id = Integer.parseInt(dataSet[2]);

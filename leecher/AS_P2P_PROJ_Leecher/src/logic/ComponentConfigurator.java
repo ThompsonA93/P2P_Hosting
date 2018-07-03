@@ -48,11 +48,17 @@ public class ComponentConfigurator {
 			}
 					
 		} else {
-			Connector seederCon = new Connector();	
-						
+			Connector seederCon = new Connector();			
 				try {
 					int id = Integer.parseInt(resourceField.getText());
-					SeederData resourceToFetch = data.get(data.indexOf(id)); // FIXME?
+//					SeederData resourceToFetch = data.get(data.indexOf(id)); // FIXME?
+					SeederData resourceToFetch  = null;
+					for(SeederData sd : data) {
+						if(sd.getID() == id) {
+							resourceToFetch = sd;
+							break;
+						}
+					}
 					seederCon.getResourceFromSeeder(resourceToFetch);
 				}catch(ArrayIndexOutOfBoundsException ae) {
 					Leecher.logger.write("# The resources data has not been pre-fetched to the table.\n\tConnect to a root server first.");

@@ -13,7 +13,7 @@ import leecher.Leecher;
  * Class to handle File transformations.
  */
 public class FileConverter {
-	final String wrkdir = "/LeecherDownloads";
+	final String wrkdir = " /home/thompson/Desktop/";
 	
 	/** Decodes downloaded data. Per default B64-Encoded.
 	 * @param payload
@@ -35,6 +35,8 @@ public class FileConverter {
 	 * @param type: suffix of file
 	 */
 	public void convertToFile(byte[] data, String name, String type) {
+		
+		System.out.println(name + "::" +  type);
 		Leecher.logger.write("### Converting Byte to File ");
 		Timestamp ts = new Timestamp(System.currentTimeMillis());
 		String fileName = name.concat("_"+ts.getTime());
@@ -65,9 +67,13 @@ public class FileConverter {
 			fileName += ".txt";
 		}
 		
-		File file = new File(wrkdir, fileName);
 		
+		File file = new File(fileName);
+		System.out.println("File = " + file.getAbsolutePath());
 		try {
+			if(!file.exists()) {
+				file.createNewFile();
+			}
 			FileOutputStream fos = new FileOutputStream(file);
 			fos.write(data);
 			fos.close();

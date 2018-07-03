@@ -41,7 +41,6 @@ public class View extends Application{
 	private Button connectButton, helpButton, exitButton;
 	
 	private ObservableList<SeederData> data = FXCollections.observableArrayList();
-
 	
 	@Override
 	public void start(Stage stage) throws Exception{
@@ -64,8 +63,8 @@ public class View extends Application{
 		portColumn.setCellValueFactory(new PropertyValueFactory<SeederData, Integer>("Port"));
 		resourceIDColumn.setCellValueFactory(new PropertyValueFactory<SeederData, Integer>("ID"));
 		resourceNameColumn.setCellValueFactory(new PropertyValueFactory<SeederData, String>("Name"));
-		typeColumn.setCellValueFactory(new PropertyValueFactory<SeederData, Integer>("Size"));
-		sizeColumn.setCellValueFactory(new PropertyValueFactory<SeederData, String>("Type"));
+		typeColumn.setCellValueFactory(new PropertyValueFactory<SeederData, String>("Type"));
+		sizeColumn.setCellValueFactory(new PropertyValueFactory<SeederData, Integer>("Size"));
 
 		cc.configureLoggerArea(logArea);
 		cc.configureConnectButton(connectButton, ipField, portField, resourceField, data);
@@ -80,7 +79,7 @@ public class View extends Application{
 		
 		serverTable.setItems(data);
 		
-/*		serverTable.getItems().addAll(
+		serverTable.getColumns().addAll(
 				ipColumn,
 				portColumn,
 				resourceIDColumn,
@@ -88,7 +87,7 @@ public class View extends Application{
 				typeColumn,
 				sizeColumn
 				);
-*/				
+				
 		topPane.getChildren().addAll(
 				ipField,
 				portField,
